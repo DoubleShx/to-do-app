@@ -1,8 +1,16 @@
 import React from 'react'
+import './app-header.css'
 
-const AppHeader = (props) => {
+const AppHeader = ({header, doneCount, addCount}) => {
     return (
-        <h1> { props.header } </h1>
+        <span>
+            <div className="col-8 inline">
+            <h1> { header } </h1> 
+            </div>
+            <div className="col-4 inline">
+            <p>{doneCount} done from {addCount}</p>
+            </div>
+        </span>
     )
 }
 export default AppHeader;
