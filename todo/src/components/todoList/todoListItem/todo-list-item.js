@@ -10,22 +10,23 @@ export default class TodoListItem extends Component {
     }
 
     workIsDone = () => {
-      let { done } = this.state;
-      done = !done;
-      this.setState ( {
-        done
+      
+      this.setState (({done}) => {
+        return {
+          done: !done
+        }
       })
     }
     importantSet = () => {
-      let { important } = this.state;
-      important = !important;
-      this.setState({
-        important
+      this.setState(({important}) => {
+        return {
+          important: !important
+        }
       })
     }
 
     render() {
-        const { label } = this.props;
+        const { label, onDeleted } = this.props;
         let styleLi = 'todoListItem'
         const {done, important} = this.state;
             if (done) {
@@ -44,7 +45,9 @@ export default class TodoListItem extends Component {
           </div>
         <div className="col-4 inlineblock rightButtons">
           <span>              
-             <button type='button' className="btn btn-outline-danger"> 
+             <button type='button' 
+             className="btn btn-outline-danger"
+             onClick = { onDeleted } > 
                   <i className="fa fa-trash-o"></i></button>
              <button type='button' className="btn btn-outline-success button2" 
                 onClick = { this.importantSet } >
