@@ -16,7 +16,9 @@ class App extends Component {
       { label: "Have a Lunch", important: false, done: false, id: 3}
     ],
     adding: '',
-    test: true
+    test: true,
+    search: '',
+    activeTodos: '',
   }
   
   
@@ -33,14 +35,16 @@ class App extends Component {
       }
     })    
   }
-  onAddFunction = (adding) => {
+  onAddFunction = (event, adding2) => {
+    event.preventDefault();
     const ids = this.state.todos.map(el =>  el.id);
     console.log(this.state.todos)
     const  maximumId = Math.max.apply(null, ids) + 1;
-    this.setState(({todos}) => {
-      const newTodo = [...todos, { label: adding, important: false, done: false, id: maximumId}]
+    this.setState(({todos, adding}) => {
+      const newTodo = [...todos, { label: adding2, important: false, done: false, id: maximumId}]
       return {
-        todos: newTodo
+        todos: newTodo,
+        adding: ''
       }
     })    
   }
@@ -77,8 +81,20 @@ class App extends Component {
        todos: this.toggleProperty(todos, id, 'important')
      }
     })
-  }
+  };
 
+  searchChange = (event) => {
+    this.setState({
+      search: event.target.value
+    })
+  };
+  activeButton = (param) => {
+    this.setState({
+      activeTodos: param.toString(),
+      search: ''
+    })
+    console.log(param)
+  }
 
   render() {
       const doneCount = this.state.todos
@@ -91,7 +107,9 @@ class App extends Component {
               doneCount = { doneCount } 
               addCount = { addCount } 
               />
-              <SearchPanel />
+              <SearchPanel search = { this.state.search } searchChange = { this.searchChange } 
+              activeButton = { this.activeButton } 
+              />
               <TodoList 
               todos = { this.state.todos } 
               onDeleted = { this.onDeleted }
@@ -99,6 +117,8 @@ class App extends Component {
               onToggleImportant = { this.onToggleImportant }
               done = { this.state.done }
               important = { this.state.important }
+              search = { this.state.search }
+              activeTodos = { this.state.activeTodos }
               />
               <ItemAddForm 
               onAddFunction = { this.onAddFunction } 
